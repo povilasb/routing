@@ -276,9 +276,9 @@ impl StateMachine {
             #[cfg(not(feature = "use-mock-crust"))]
             Some(c) => Service::with_config(crust_sender, c, pub_id),
             #[cfg(feature = "use-mock-crust")]
-            None => Service::new(mock_crust::take_current(), crust_sender, pub_id),
+            None => Service::try_new(mock_crust::take_current(), crust_sender, pub_id),
             #[cfg(not(feature = "use-mock-crust"))]
-            None => Service::new(crust_sender, pub_id),
+            None => Service::try_new(crust_sender, pub_id),
         };
 
         let mut crust_service = unwrap!(res, "Unable to start crust::Service");
